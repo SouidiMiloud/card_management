@@ -1,0 +1,8 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    You do not have enough balance to complete this purchase. Please add funds to your account.
+</div>
+<a class="btn btn-primary" href="{% url 'home' %}">Back to Cards</a>
+{% endblock %}

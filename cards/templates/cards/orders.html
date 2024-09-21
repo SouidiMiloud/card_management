@@ -1,0 +1,70 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+<div style="background-color: white; box-shadow: 1px 1px 3px rgba(30, 30, 30, 100); padding: 1rem; border-radius: 8px;">
+<h2>My Orders</h2>
+<div class="cards-table">
+    <table class="table table-striped orders-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Type</th>
+                {% if orders_type == 'WholesaleCard' %}
+                    <th>Quantity</th>
+                {% elif orders_type == 'SelfAccount' %}
+                    <th>Account type</th>
+                {% else %}
+                    <th>Bin</th>
+                {% endif %}
+                <th>Price</th>
+                <th>Purchase Date</th>
+                {% if orders_type == 'SelfAccount' %}
+                    <th>Username</th>
+                    <th>Password</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in order_items %}
+            <tr>
+                <td>{{ order.order.id }}</td>
+                <td>
+                    {% if orders_type == 'DumpCard' %}
+                        dumps
+                    {% elif orders_type == 'WholesaleCard' %}
+                        wholesaleCards
+                    {% elif orders_type == 'SelfAccount' %}
+                        Self Accounts
+                    {% else %}
+                        Cards
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if orders_type == 'WholesaleCard' %}
+                        {{ order.item.quantity }}
+                    {% elif orders_type == 'SelfAccount' %}
+                        {{ order.item.account_type }}
+                    {% else %}
+                        bin {{ order.item.card_bin }}
+                        <p style="font-weight: bold; color: #55f; font-size: 18px;">{{ order.item.status }}</p>
+                    {% endif %}
+                </td>
+                
+                <td>${{ order.order.price }}</td>
+                <td>{{ order.order.purchase_date }}</td>
+
+                {% if orders_type == 'SelfAccount' %}
+                    <td>{{ order.item.username }}</td>
+                    <td>{{ order.item.password }}</td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">You have no orders yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

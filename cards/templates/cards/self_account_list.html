@@ -1,0 +1,121 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="cards-div">
+    <h2>Search</h2>
+
+    <div class="search-div">
+        <div class="search-elements">
+
+            <div>
+                <label for="account_type">Account Type</label>
+                <br/>
+                <select id="account_type" name="account_type" class="custom-input">
+                    <option value="All">All</option>
+                    {% for account_type in account_types %}
+                        <option value="{{ account_type }}">{{ account_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="country">Country</label>
+                <br/>
+                <select id="country" name="country" class="custom-input">
+                    <option value="All">All</option>
+                    {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label>Price Range</label>
+                <br/>
+                <input type="range" id="min-price" min="0" max="1000" step="2" value="0" class="custom-input" oninput="updatePriceRange()">
+                <input type="range" id="max-price" min="0" max="1000" step="2" value="1000" class="custom-input" oninput="updatePriceRange()">
+                <br/>
+                <label id="price-label">$0 - $1000</label>
+            </div>
+        </div>
+
+        <button class="search-button" onclick="submitSearch()">SEARCH</button>
+    </div>
+
+    <div class="cards-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Country</th>
+                    <th>Description</th>
+                    <th>PROOF</th>
+                    <th>Add Date</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in self_accounts %}
+                <tr>
+                    <td>
+                        {{ account.account_type }} 
+                    </td>
+                    <td>
+                        {{ account.country }}
+                        <i class="fi fi-{{ account.country|lower }}"></i>
+                    </td>
+                    <td>
+                        {{ account.description }}
+                    </td>
+                    <td><a href="{% url 'proof' account.id %}" class="btn cart-btn">
+                        PROOF
+                    </a></td>
+                    <td>{{ account.add_date }}</td>
+                    <td class="text-success">${{ account.price }}</td>
+                    <td><a href="{% url 'add_self_account_shop' account.id %}" class="btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i> CART
+                    </a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No self accounts available at the moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function updatePriceRange() {
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        const priceLabel = document.getElementById('price-label');
+
+        if (parseInt(minPrice) > parseInt(maxPrice)) {
+            document.getElementById('min-price').value = maxPrice;
+            document.getElementById('max-price').value = minPrice;
+        }
+        priceLabel.textContent = `$${minPrice} - $${maxPrice}`;
+    }
+
+    function submitSearch() {
+        const account_type = document.getElementById('account_type').value;
+        const country = document.getElementById('country').value;
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+
+        const query = new URLSearchParams({
+            account_type: account_type,
+            country: country,
+            min_price: minPrice,
+            max_price: maxPrice,
+        }).toString();
+
+        window.location.search = query;
+    }
+</script>
+
+{% endblock %}

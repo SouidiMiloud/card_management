@@ -1,0 +1,139 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="cards-div">
+    <h2>Search</h2>
+
+    <div class="search-div">
+        <div class="search-elements">
+            <div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="address" id="address">
+                    <label for="address">ADDRESS</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="dob" id="dob">
+                    <label for="dob">DOB</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="email" id="email">
+                    <label for="email">EMAIL</label>
+                </div>
+            </div>
+
+            <div>
+                <label for="country">Country</label>
+                <br/>
+                <select id="country" name="country" class="custom-input">
+                    <option value="All">All</option>
+                    {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label>Price Range</label>
+                <br/>
+                <input type="range" id="min-price" min="0" max="10000" step="10" value="0" class="custom-input" oninput="updatePriceRange()">
+                <input type="range" id="max-price" min="0" max="10000" step="10" value="10000" class="custom-input" oninput="updatePriceRange()">
+                <br/>
+                <label id="price-label">$0 - $10000</label>
+            </div>
+        </div>
+
+        <button class="search-button" onclick="submitSearch()">SEARCH</button>
+    </div>
+
+    <div class="cards-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Address</th>
+                    <th>DOB</th>
+                    <th>Email</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in cards %}
+                <tr>
+                    <td>
+                        {{ card.country }} 
+                        <i class="fi fi-{{ card.country|lower }}"></i>
+                    </td>
+                    <td>
+                        {% if card.address %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if card.dob %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if card.email %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td class="text-success">${{ card.price }}</td>
+                    <td><a href="{% url 'add_wholesale_shop' card.id %}" class="btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i> CART
+                    </a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No cards available at the moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function updatePriceRange() {
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        const priceLabel = document.getElementById('price-label');
+
+        if (parseInt(minPrice) > parseInt(maxPrice)) {
+            document.getElementById('min-price').value = maxPrice;
+            document.getElementById('max-price').value = minPrice;
+        }
+
+        priceLabel.textContent = `$${minPrice} - $${maxPrice}`;
+    }
+
+    function submitSearch() {
+        const country = document.getElementById('country').value;
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        const addressChecked = document.getElementById('address').checked;
+        const dobChecked = document.getElementById('dob').checked;
+        const emailChecked = document.getElementById('email').checked;
+
+        const query = new URLSearchParams({
+            country: country,
+            min_price: minPrice,
+            max_price: maxPrice,
+            address: addressChecked,
+            dob: dobChecked,
+            email: emailChecked
+        }).toString();
+
+        window.location.search = query;
+    }
+</script>
+
+{% endblock %}

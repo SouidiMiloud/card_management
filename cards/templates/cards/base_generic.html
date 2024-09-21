@@ -1,0 +1,1121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Virtual Card Site</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.7.0/css/flag-icons.min.css">
+
+    <style>
+        .welcome-div{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            height: 4rem;
+            margin-top: 2rem;
+            background-color: #117;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .welcome-div span{
+            font-weight: bold;
+        }
+        
+        .welcome-div img{
+            width: 3.5rem;
+            height: 3.5rem;
+            margin: 0 1rem;
+        }
+        .welcome-div p{
+            margin-top: 0.7rem;
+            font-size: 20px;
+        }
+
+
+        body{
+            background-color: #eef;
+        }
+
+        .custom-navbar{
+            background-color: #117;
+            height: 5.5rem;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+        }
+        .navigation, .navigation-left, .navigation-right, .navigation-center, .navigation-left2, .navigation-right2{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        div{
+            text-decoration: none;
+        }
+        .nav-top-left{
+            position: absolute;
+            left: 0;
+        }
+        .nav-top-right{
+            position: absolute;
+            right: 0;
+        }
+
+        .user_logo{
+            width: 4rem;
+            height: 4rem;
+        }
+
+        .custom_li_logo{
+            position: relative;
+        }
+        .custom_li_logo div{
+            display: none;
+            position: absolute;
+            top: 4rem;
+            right: 2rem;
+            width: 8rem;
+            height: 6rem;
+            box-shadow: 1px 1px 6px rgba(30, 30, 30, 150);
+            background-color: white;
+            border-radius: 8px;
+            z-index: 1;
+        }
+        .custom_li_logo div a, .custom_li_logo div a:hover{
+            color: black;
+            font-size: 18px;
+        }
+
+        .nav-link{
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+        .nav-link:hover{
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .navbar-brand{
+            text-decoration: none;
+            color: white;
+        }
+        .navbar-brand:hover{
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .second-nav{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            height: 3.5rem;
+            max-width: 100%;
+        }
+        .second-nav div a{
+            color: black;
+            font-size: 18px;
+        }
+        .second-nav div a:hover{
+            color: blue;
+            cursor: pointer;
+        }
+
+        .add-card-div{
+            padding: 2rem;
+            width: 70%;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            box-shadow: 1px 1px 7px rgba(100, 100, 100, 100);
+            padding: 2rem 1rem 2rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+        }
+        .add-card-div h3 {
+            padding: 0.5rem;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            background-color: #117;
+            color: white;
+            width: 50%;
+            border-radius: 7px;
+        }
+        .add-card-div form{
+            width: 100%;
+        }
+        .add-card-div input{
+            width: 100%;
+            padding: 0.4rem;
+        }
+        .add-card-div textarea{
+            padding: 0.4rem;
+            width: 100%;
+            height: 5rem;
+        }
+        .add-card-div select{
+            width: 100%;
+            padding: 0.4rem;
+        }
+        .add-card-div button{
+            border-radius: 7px;
+            background-color: #117;
+            font-size: 18px;
+        }
+        .add-card-div button:hover{
+            background-color: #115;
+            cursor: pointer;
+        }
+
+        .cards-div{
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        .search-div{
+            min-height: 20rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: white;
+            box-shadow: 0px 1px 1px rgba(100, 100, 100, 100);
+            padding: 1rem;
+        }
+        .search-elements{
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .elements{
+            display: flex;
+            flex-direction: column;
+        }
+        .checkboxes{
+            display: flex;
+            flex-direction: row;
+            margin-top: 1rem;
+        }
+        .checkboxes input{
+            margin-right: 1rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 10px;
+            border: solid black 1px;
+        }
+        .custom-input{
+            width: 15rem;
+            border-radius: 7px;
+            height: 2rem;
+            padding: 0.3rem;
+        }
+        .search-button{
+            width: 6rem;
+            height: 2rem;
+            background-color: #117;
+            color: white;
+            border-radius: 7px;
+        }
+        .search-button:hover{
+            background-color: #115;
+            cursor: pointer;
+        }
+
+        .cards-table{
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            background-color: white;
+            box-shadow: 0px 1px 1px rgba(100, 100, 100, 100);
+            padding: 2rem;
+        }
+        .cards-table table tbody td{
+            text-align: center;
+            font-weight: 500;
+        }
+        .cards-table table tbody tr:nth-child(odd){
+            background-color: #eee;
+        }
+        .ok-icon{
+            color: #171;
+        }
+        .no-icon{
+            color: #911;
+        }
+
+        .cart-btn, .cart-btn:hover{
+            
+            background-color: #117;
+            cursor: pointer;
+            color: white;
+        }
+
+        .user_profile{
+            width: 80%;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .user_details{
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .user_details p{
+            margin: 0 4rem;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .user_update{
+            width: 100%;
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .update_password{
+            width: 60%;
+            margin-top: 1rem;
+            background-color: white;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 1px 1px 3px rgba(30, 30, 30, 100);
+        }
+        .update_password div{
+            display: flex;
+            flex-direction: column;
+        }
+        .update_password div label{
+            margin-top: 0.8rem;
+        }
+
+        .update_password button{
+            margin-top: 1rem;
+            background-color: #11f;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            color: white;
+            padding: 6px 1.3rem;
+        }
+        .update_password button:hover{
+            cursor: pointer;
+            background-color: #11d;
+        }
+        .update_password h3{
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        .update_password input{
+            padding: 0.2rem 0.5rem;
+            height: 2.5rem;
+            border-radius: 5px;
+            border: solid 1px #167;
+        }
+        .shopping-icon{
+            position: relative;
+        }
+        .shopping-count{
+            position: absolute;
+            top: -1rem;
+            right: -0.5rem;
+            background-color: white;
+            color: black;
+            border-radius: 8px;
+            height: 1.2rem;
+            font-size: 14px;
+            text-align: center;
+            padding: 0 2px;
+        }
+
+        .shoppings{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px rgba(100, 100, 100, 100);
+        }
+        .cart{
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart a{
+            font-size: 20px;
+            text-decoration: underline;
+            color: black;
+            font-weight: bold;
+        }
+        .cart p{
+            font-size: 18px;
+        }
+
+        .details_price{
+            height: 5rem;
+            width: 100%;
+            position: relative;
+            border-radius: 5px;
+            border: solid 1px gray;
+            display: flex;
+            padding-top: 0.7rem;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .details{
+            position: absolute;
+            left: 1rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .price{
+            position: absolute;
+            right: 1rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .trash{
+            cursor: pointer;
+            margin-top: -1.2rem;
+            margin-left: 0.5rem;
+        }
+
+        .confirm-payment{
+            position: relative;
+            background-color: #ccc;
+            width: 35%;
+            height: 10rem;
+            border-radius: 8px;
+            left: 2rem;
+        }
+
+        .total-name{
+            position: absolute;
+            left: 1rem;
+            top: 2rem;
+            font-size: 18px;
+        }
+        .total-value{
+            position: absolute;
+            right: 1rem;
+            top: 2rem;
+            font-size: 18px;
+        }
+        .confirm-payment button{
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            padding: 0.4rem 1rem;
+        }
+
+        .tickets{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+        }
+        .ticket-button{
+            padding: 0.3rem 0.8rem;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            background-color: #171;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 0.7rem;
+        }
+        .tickets-table{
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 100%;
+            background-color: white;
+            box-shadow: 1px 1px 3px rgba(30, 30, 30, 100);
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .new_ticket form{
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0px 1px 3px rgba(30, 30, 30, 100);
+        }
+        .new_ticket input{
+            border: solid 1px #266;
+            border-radius: 5px;
+            padding: 0.4rem;
+            font-size: 17px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .new_ticket textarea{
+            border: solid 1px #266;
+            border-radius: 5px;
+            padding: 0.4rem;
+            width: 100%;
+            min-height: 6rem;
+            margin-bottom: 5rem;
+        }
+        .new_ticket button{
+            background-color: #117;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            padding: 0.3rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            position: absolute;
+            right: 2.5rem;
+            bottom: 3rem;
+        }
+
+        .ticket-details{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .messages{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .msg-header{
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: #ddd;
+            border: solid #bbb 1px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            position: relative;
+            padding-top: 1rem;
+        }
+        .subject h4{
+            margin-left: 0.5rem;
+        }
+        .subject{
+            position: absolute;
+            left: 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+        }
+        .status{
+            position: absolute;
+            right: 1rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .status div{
+            cursor: pointer;
+            background-color: #99f;
+            border: solid 1px #225;
+            border-radius: 7px;
+            padding: 0.3rem;
+            font-weight: bold;
+            height: 2rem;
+            font-size: 14px;
+            color: #225;
+            text-align: center;
+            margin-top: -1rem;
+            margin-left: 0.5rem;
+        }
+
+        .tickets-button{
+            background-color: #115;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+        .tickets-button:hover{
+            text-decoration: none;
+            color: white;
+        }
+
+        .msg-body{
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            width: 100%;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            padding: 3rem 1rem 2rem 1rem;
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(100, 100, 100, 100);
+        }
+
+        .msg-item{
+            display: flex;
+            flex-direction: column;
+            min-width: 20%;
+            margin-bottom: 1.5rem;
+        }
+        .msg-details{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .msg-content{
+            background-color: #afa;
+            color: black;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: -0.6rem;
+            font-size: 19px;
+        }
+
+        .reply form{
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            width: 100%;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(100, 100, 100, 100);
+        }
+        .reply textarea{
+            width: 92%;
+            min-height: 6rem;
+            padding: 0.5rem;
+            font-size: 18px;
+            border: solid 1px #277;
+            border-radius: 8px;
+        }
+        .reply button{
+            margin-top: -2rem;
+            background-color: #117;
+            cursor: pointer;
+            padding: 0.4rem 0.8rem;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .actions{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .ticket_closed{
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            padding: 1rem;
+            font-weight: 600;
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(100, 100, 100, 100);
+        }
+
+        .self_account_button{
+            width: 100%;
+            background-color: #117;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+        }
+
+        .cards-choices{
+            display: none;
+            flex-direction: column;
+            margin: 0;
+            position: absolute;
+            top: 2.5rem;
+            left: 0;
+            border-radius: 5px;
+            width: 13rem;
+            z-index: 2;
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(100, 100, 100, 100);
+        }
+        .cards-choices a{
+            width: 100%;
+            padding: 0.5rem 0.8rem;
+            color: black;
+            border-bottom: solid gray 1px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .cards-choices a:hover{
+            background-color: #eee;
+        }
+        .currency{
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 2rem;
+        }
+        .currency-item{
+            background-color: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            margin-left: 1rem;
+            box-shadow: 0 1px 8px rgba(100, 100, 100, 100);
+        }
+        .amount-div{
+            display: flex;
+            flex-direction: column;
+        }
+        .amount-div input{
+            width: 25rem;
+            height: 2.5rem;
+            padding: 0.3rem;
+            font-size: 17px;
+            border-radius: 5px;
+            border: solid 1px #377;
+            margin-bottom: 1.5rem;
+        }
+        .add-funds{
+            width: 100%;
+        }
+        .add-funds form{
+            width: 100%;
+            background-color: white;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            box-shadow: 0 1px 1px rgba(100, 100, 100, 100);
+        }
+        .add-funds form button{
+            border: none;
+            border-radius: 7px;
+            padding: 0.5rem;
+            background-color: #11a;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .home-page{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .home-card{
+            margin: 0 0.5rem;
+            font-weight: 600;
+            height: 4rem;
+            border: none;
+            text-align: center;
+            border-radius: 7px;
+            background-color: white;
+            box-shadow: 0 1px 5px rgba(100, 100, 100, 100);
+        }
+        .home-card a{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+        }
+        .home-cards{
+            margin-top: 3rem;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .home-cards div{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-bottom: 0.5rem;
+        }
+        .admin_left{
+            display: flex;
+            flex-direction: row;
+        }
+
+        @media (max-width: 768px){
+            .user_profile{
+                width: 100%;
+            }
+            .update_password{
+                width: 98%;
+            }
+            .amount-div{
+                width: 90%;
+            }
+            .amount-div input{
+                width: 100%;
+            }
+            .price{
+                right: 0.5rem;
+                bottom: -0.7rem;
+            }
+            .confirm-payment{
+                width: 100%;
+                left: 0;
+            }
+            .shoppings{
+                flex-direction: column;
+            }
+            .cart{
+                width: 100%;
+            }
+            .reply button{
+                margin-left: 0.5rem;
+            }
+            .msg-header{
+                flex-direction: column;
+                align-items: start;
+                height: fit-content;
+            }
+            .subject, .status{
+                position: relative;
+                right: 0;
+                left: 0.5rem;
+                margin: 0;
+            }
+            .add-card-div{
+                width: 100%;
+            }
+            .add-card-div h3{
+                width: 100%;
+            }
+            .home-cards{
+                width: 100%;
+            }
+            .home-cards div{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-bottom: 0;
+            }
+            .home-card{
+                margin: 1rem 0 0 0;
+            }
+            .search-elements{
+                flex-direction: column;
+                justify-content: space-around;
+            }
+            .checkboxes{
+                margin-bottom: 1rem;
+            }
+            .custom-navbar{
+                flex-direction: column;
+                height: fit-content;
+            }
+            .navigation-left{
+                display: flex;
+                flex-direction: column;
+            }
+            .navigation-right{
+                display: flex;
+                flex-direction: row;
+            }
+            .second-nav{
+                height: fit-content;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            .navigation-left2, .navigation-right2{
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .user_logo{
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            .cards-choices{
+                left: -1rem;
+            }
+            .additional-class{
+                left: -8rem;
+            }
+        }
+
+    </style>  
+
+</head>
+<body>
+
+    <nav class="custom-navbar">
+        <div class="navigation-left">
+            <a class="navbar-brand" href="{% url 'home' %}">Virtual Card Site</a>
+            {% if user.is_authenticated and user.is_superuser %}
+            <div class="admin_left">
+                <div class="nav-item">
+                    <div style="position: relative;">
+                        <a onclick="toggleCardsChoices()" class="nav-link">Add Card</a>
+                        <div id="cards-choices" class="cards-choices">
+                            <a href="{% url 'add_hq_card' %}">
+                                <i class="fas fa-credit-card"></i> HQ Cards
+                            </a>
+                            <a href="{% url 'add_vhq_card' %}">
+                                <i class="fas fa-credit-card"></i> V-HQ Cards
+                            </a>
+                            <a href="{% url 'add_dump_card' %}">
+                                <i class="fas fa-credit-card"></i> Dumps
+                            </a>
+                            <a href="{% url 'add_wholesale_card' %}">
+                                <i class="fas fa-credit-card"></i> Wholesale Cards
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item"><a class="nav-link" href="{% url 'add_self_account' %}">Add Account</a></div>
+                <div class="nav-item">
+                    <div style="position: relative;">
+                        <a onclick="toggleBulkChoices()" class="nav-link">Bulk</a>
+                        <div id="bulk-choices" class="cards-choices additional-class">
+                            
+                            <form id="hqCardForm" method="post" enctype="multipart/form-data" action="{% url 'bulk_hq_card' %}" style="display:none;">
+                                {% csrf_token %}
+                                <input type="file" id="hqCardFile" name="file" accept=".xlsx, .csv" onchange="submitForm('hqCardForm')">
+                            </form>
+                            
+                            <form id="vhqCardForm" method="post" enctype="multipart/form-data" action="{% url 'bulk_vhq_card' %}" style="display:none;">
+                                {% csrf_token %}
+                                <input type="file" id="vhqCardFile" name="file" accept=".xlsx, .csv" onchange="submitForm('vhqCardForm')">
+                            </form>
+                            
+                            <form id="dumpCardForm" method="post" enctype="multipart/form-data" action="{% url 'bulk_dump_card' %}" style="display:none;">
+                                {% csrf_token %}
+                                <input type="file" id="dumpCardFile" name="file" accept=".xlsx, .csv" onchange="submitForm('dumpCardForm')">
+                            </form>
+                            
+                            <form id="wholesaleCardForm" method="post" enctype="multipart/form-data" action="{% url 'bulk_wholesale_card' %}" style="display:none;">
+                                {% csrf_token %}
+                                <input type="file" id="wholesaleCardFile" name="file" accept=".xlsx, .csv" onchange="submitForm('wholesaleCardForm')">
+                            </form>
+                            
+                            <form id="selfAccountForm" method="post" enctype="multipart/form-data" action="{% url 'bulk_self_account' %}" style="display:none;">
+                                {% csrf_token %}
+                                <input type="file" id="selfAccountFile" name="file" accept=".xlsx, .csv" onchange="submitForm('selfAccountForm')">
+                            </form>
+                            
+                            <a href="#" onclick="document.getElementById('hqCardFile').click();">
+                                <i class="fas fa-credit-card"></i> HQ Cards
+                            </a>
+                            <a href="#" onclick="document.getElementById('vhqCardFile').click();">
+                                <i class="fas fa-credit-card"></i> V-HQ Cards
+                            </a>
+                            <a href="#" onclick="document.getElementById('dumpCardFile').click();">
+                                <i class="fas fa-credit-card"></i> Dumps
+                            </a>
+                            <a href="#" onclick="document.getElementById('wholesaleCardFile').click();">
+                                <i class="fas fa-credit-card"></i> Wholesale Cards
+                            </a>
+                            <a href="#" onclick="document.getElementById('selfAccountFile').click();">
+                                <i class="fas fa-users"></i> Self Accounts Registered
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            </div>
+            <div class="navigation-right">
+            {% if user.is_authenticated %}
+            {% if not user.is_superuser %}
+            <div class="nav-item"><a class="nav-link" href="{% url 'shoppings' %}">
+                <div class="shopping-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    {% if shopping_count %}
+                        <div class="shopping-count">{{ shopping_count }}</div>
+                    {% endif %}
+                </div>
+            </a></div>
+            <div class="nav-item" style="display: flex; flex-direction: row;"><a class="nav-link" href="{% url 'add_funds' %}">
+                Add Funds <i class="fas fa-credit-card"></i> ${{ balance }}
+            </a></div>
+            {% endif %}
+            <div class="nav-item custom_li_logo"><a class="nav-link">
+                <img onclick="toggleUserInfo()" class="user_logo" src="{% static 'images/user_logo.PNG' %}"/></a>
+                <div id="user_info" class="user_info">
+                    <a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a>
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="nav-item"><a class="nav-link" href="{% url 'authenticate' %}">Authenticate</a></div>
+            {% endif %}
+        </div>
+    </nav>   
+
+
+    <nav class="second-nav">
+        <div class="navigation-left2">
+            <div class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Dashboard</a></div>
+            
+            <div class="nav-item">
+                <div style="position: relative;">
+                    <a onclick="toggleCardDetailChoices()" class="nav-link"><i class="fas fa-credit-card"></i> Cards</a>
+                    <div id="card-detail-choices" class="cards-choices">
+                        <a style="font-size: 14px;" href="{% url 'hq_detail_cards' %}">
+                            <i class="fas fa-credit-card"></i> HQ Cards
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'vhq_detail_cards' %}">
+                            <i class="fas fa-credit-card"></i> V-HQ Cards
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'dump_detail_cards' %}">
+                            <i class="fas fa-credit-card"></i> Dumps
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'wholesale_detail_cards' %}">
+                            <i class="fas fa-credit-card"></i> Wholesale Cards
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="nav-item navigation-center"><a class="nav-link" href="{% url 'self_account_detail_cards' %}"><i class="fas fa-users"></i> Self Accounts Registered</a></div>
+                
+            <div class="navigation-right2">
+                <div style="position: relative;">
+                    <a onclick="toggleOrdersChoices()" class="nav-link"><i class="fas fa-credit-card"></i> My Orders</a>
+                    <div id="orders-choices" class="cards-choices">
+                        <a style="font-size: 14px;" href="{% url 'hq_orders' %}">
+                            <i class="fas fa-credit-card"></i> HQ Cards
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'vhq_orders' %}">
+                            <i class="fas fa-credit-card"></i> V-HQ Cards
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'dump_orders' %}">
+                            <i class="fas fa-credit-card"></i> Dumps
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'wholesale_orders' %}">
+                            <i class="fas fa-credit-card"></i> Wholesale Cards
+                        </a>
+                        <a style="font-size: 14px;" href="{% url 'self_account_orders' %}">
+                            <i class="fas fa-users"></i> Self Accounts Registered
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-item"><a class="nav-link" href="{% url 'support_tickets' %}"><i class="fas fa-ticket-alt"></i> Tickets</a></div>
+            </div>
+        </div>
+    </nav>  
+
+
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const user_info = document.getElementById('user_info');
+        const cards_choices = document.getElementById('cards-choices');
+        const orders_choices = document.getElementById('orders-choices');
+        const detail_card_choices = document.getElementById('card-detail-choices');
+        const bulk_choices = document.getElementById('bulk-choices')
+        let showUserInfo = false;
+        let showChoices = false;
+        let showOrders = false;
+        let showDetailCards = false;
+        let showBulk = false;
+
+        function submitForm(formId) {
+            document.getElementById(formId).submit();
+        }
+
+        /*document.addEventListener('click', () => {
+            if(showUserInfo)
+                user_info.style.display = 'none';
+            if(cards_choices && showChoices)
+                cards_choices.style.display = 'none';
+            if(showOrders)
+                orders_choices.style.display = 'none';
+            if(bulk_choices && showBulk)
+                bulk_choices.style.display = 'none';
+            if(showDetailCards)
+                detail_card_choices.style.display = 'none';
+        })*/;
+
+        function toggleUserInfo(){
+            user_info.style.display = showUserInfo ? 'none' : 'block';
+            showUserInfo = !showUserInfo;
+        }
+
+        function toggleCardsChoices(){
+            cards_choices.style.display = showChoices ? 'none' : 'flex';
+            showChoices = !showChoices;
+        }
+
+        function toggleOrdersChoices(){
+            orders_choices.style.display = showOrders ? 'none' : 'flex';
+            showOrders = !showOrders;
+        }
+
+        function toggleCardDetailChoices(){
+            detail_card_choices.style.display = showDetailCards ? 'none' : 'flex';
+            showDetailCards = !showDetailCards;
+        }
+
+        function toggleBulkChoices(){
+            bulk_choices.style.display = showBulk ? 'none' : 'flex';
+            showBulk = !showBulk;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="add-card-div">
+    <h3 style="padding-left: 1.5rem;">Add New Self Account</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }} 
+        <button class="self_account_button" type="submit">ADD SELF ACCOUNT</button>
+    </form>
+</div>
+
+{% endblock %}

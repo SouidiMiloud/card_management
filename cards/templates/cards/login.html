@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticate</title>
+    <style>
+        .authenticate_container {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: row;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 2px 2px 15px rgba(30, 30, 30, 70);
+            width: 65%;
+            height: 90%;
+            border-radius: 10px;
+        }
+        .authenticate_container button {
+            border-radius: 8px;
+            background-color: #117;
+            border: solid 1px white;
+            cursor: pointer;
+            padding: 0.7rem;
+            margin-top: 1rem;
+            color: white;
+        }
+        .login_container {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            background-color: #fff;
+        }
+        .login_container form, .register_container form{
+            width: 100%;
+            height: 100%;
+        }
+        .login_container h3 {
+            margin-top: 30%;
+        }
+        .register_container h3{
+            margin-top: 25%;
+        }
+        .register_container {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: #117;
+        }
+
+        .authenticate_small_size{
+            width: 98%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: #117;
+        }
+
+        .my_input{
+            width: 70%;
+            height: 10%;
+            margin-bottom: 1rem;
+        }
+        .my_input input{
+            padding: 5px;
+            font-size: 16px;
+            width: 100%;
+            height: 100%;
+            background-color: #dfdfdf;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .register_welcome, .login_welcome{
+            margin-top: 20%;
+            color: white;
+            width: 85%;
+            text-align: center;
+        }
+
+        .showElement{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hideElement{
+            display: none;
+        }
+        .p-reg{
+            margin-top: 1rem;
+            display: none;
+        }
+        .btn-link{
+            background-color: transparent;
+            color: orange;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px){
+            .authenticate_container{
+                margin-top: 7rem;
+                width: 95%;
+                height: 50%;
+            }
+            .register_welcome, .login_welcome{
+                display: none;
+            }
+            .my_input{
+                width: 90%;
+            }
+            .my_input input{
+                height: 3rem;
+            }
+
+            .register_container{
+                width: 98%;
+            }
+            .login_container{
+                width: 98%;
+            }
+            .login_container h3{
+                margin-top: 15%;
+            }
+            .login_container button, .register_container button{
+                margin-bottom: 2rem;
+                margin-top: 0rem;
+            }
+            .p-reg{
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="authenticate_container">
+        <div class="login_container" id="login_container">
+            <form id="login_form">
+                {% csrf_token %}
+                <h3>Sign in</h3>
+                <div class="my_input">
+                    <input id="login_username" name="username" placeholder="Username" required>
+                </div>
+                <div class="my_input">
+                    <input type="password" id="login_password" name="password" placeholder="Password" required>
+                </div>
+                <p id="p_reg" class="p-reg">Not a User? <span><a class="btn-link" href="{% url 'register' %}">Signup</a></span></p>
+                <button type="button" onclick="login()">SIGN IN</button>
+            </form>
+            <div id="login_welcome" class="login_welcome showWelcome">
+                <h3>Welcome to our site</h3>
+                <p>
+                    In our site, you will find products better than other marketplaces like: Briansclub, Briansclub cm, Briansclub shop, Patrickstash, Basetools, savastan.
+                </p>
+                <button type="button" onclick="login()">SIGN IN</button>
+            </div>
+        </div>
+
+        <div class="register_container" id="register_container">
+            <form id="register_form">
+                {% csrf_token %}
+                <h3>Create Account</h3>
+                <div class="my_input">
+                    <input id="register_username" name="username" placeholder="Username" required>
+                </div>
+                <div class="my_input">
+                    <input type="email" id="register_email" name="email" placeholder="Email" required>
+                </div>
+                <div class="my_input">
+                    <input type="password" id="register_password" name="password" placeholder="Password" required>
+                </div>
+                <button type="button" onclick="register()">SIGN UP</button>
+            </form>
+            <div id="register_welcome" class="register_welcome hideWelcome">
+                <h3>Welcome to our site</h3>
+                <p>
+                    In our site, you will find products better than other marketplaces like: Briansclub, Briansclub cm, Briansclub shop, Patrickstash, Basetools, savastan.
+                </p>
+                <button type="button" onclick="register()">SIGN UP</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = true;
+        const login_container = document.getElementById('login_container');
+        const register_container = document.getElementById('register_container');
+        const login_welcome = document.getElementById('login_welcome');
+        const register_welcome = document.getElementById('register_welcome');
+        const login_form = document.getElementById('login_form');
+        const register_form = document.getElementById('register_form');
+        const p_reg = document.getElementById('p_reg');
+
+        showLogin();
+
+        function login() {
+            if (isLogin) {
+                const username = document.getElementById('login_username').value;
+                const password = document.getElementById('login_password').value;
+
+                fetch('/login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ username: username, password: password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = `${location.origin}`;
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                showLogin();
+            }
+        }
+
+        function register() {
+            if (isLogin) {
+                showRegister();
+            } else {
+                const username = document.getElementById('register_username').value;
+                const email = document.getElementById('register_email').value;
+                const password = document.getElementById('register_password').value;
+
+                fetch(`{% url 'register' %}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ username: username, email: email, password: password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = `${location.origin}/authenticate`;
+                    } else {
+                        alert('Registration failed: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        function showLogin(){
+            isLogin = true;
+            login_container.style.backgroundColor = '#fff';
+            register_container.style.backgroundColor = '#117';
+            toggleClass(login_welcome, 'showElement', 'hideElement');
+            toggleClass(register_welcome, 'hideElement', 'showElement');
+
+            toggleClass(login_form, 'hideElement', 'showElement');
+            toggleClass(register_form, 'showElement', 'hideElement');
+        }
+
+        function showRegister(){
+            isLogin = false;
+            register_container.style.backgroundColor = '#fff';
+            login_container.style.backgroundColor = '#117';
+            toggleClass(login_welcome, 'hideElement', 'showElement');
+            toggleClass(register_welcome, 'showElement', 'hideElement');
+
+            toggleClass(login_form, 'showElement', 'hideElement');
+            toggleClass(register_form, 'hideElement', 'showElement');
+        }
+
+        function toggleClass(element, oldClass, newClass){
+            element.classList.remove(oldClass);
+            element.classList.add(newClass);
+        }
+
+        if(window.matchMedia("(max-width: 768px)").matches)
+            register_container.style.display = 'none';
+    </script>
+</body>
+</html>

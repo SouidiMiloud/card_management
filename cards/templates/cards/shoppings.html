@@ -1,0 +1,69 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="shoppings">
+    <div class="cart">
+        <a href="{% url 'hq_detail_cards' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Continue shopping</a>
+        <hr style="color: black;">
+        <div>
+            <p style="margin-bottom: -0.1rem;">Shopping cart</p>
+            <p>You have {{ shopping_count }} items in your cart</p>
+        </div>
+        <h2>Products</h2>
+        <div class="products">
+            {% for item in shopping_items %}
+            <div class="details_price">
+                <div style="display: flex; flex-direction: column; padding: 0.5rem; height: 5rem;">
+                <div class="details">
+                    <p style="font-weight: bold; margin-right: 0.7rem;">Details: </p>
+                    <div style="display: flex; flex-direction: row;">
+                        {% if item.item_type == 'SelfAccount' %}
+                            <p style="margin-right: 0.3rem;">{{ item.specific_item.account_type }},</p>
+                        {% elif item.item_type == 'WholesaleCard' %}
+                            <p style="margin-right: 0.3rem;">Qty. {{ item.specific_item.quantity }}, </p>
+                        {% else %}
+                            <div style="margin-right: 0.3rem; display: flex; flex-direction: row;">
+                                <p>{{ item.specific_item.card_bin }}</p>
+                                <p style="font-size: 18px; color: #55f; font-weight: bold; margin-left: 0.3rem;">{{ item.specific_item.status }}</p>,
+                            </div>
+                        {% endif %}
+                        <p>{{ item.shopping.item.country }} <i class="fi fi-{{ item.shopping.item.country|lower }}"></i></p>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: row; margin-top: 1.7rem; margin-left: 0.5rem;">
+                    <p style="font-weight: bold; margin-right: 0.7rem;">Type: </p>
+                    {% if item.item_type == 'SelfAccount' %}
+                        <p>Self Accounts</p>
+                    {% elif item.item_type == 'WholesaleCard' %}
+                        <p>wholesaleCards</p>
+                    {% elif item.item_type == 'DumpCard' %}
+                        <p>dumps</p>
+                    {% else %}
+                        <p>Cards</p>
+                    {% endif %}
+                </div>
+                </div>
+
+                <div class="price">
+                    <p style="font-weight: bold;">
+                        ${{ item.shopping.item.price }}
+                    </p>
+                    <a class="trash" href="{% url 'remove_shopping' item.shopping.id %}"><i class="fa fa-trash" ></i></a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="confirm-payment">
+        <p class="total-name">Total</p>
+        <p class="total-value">${{ total }}</p>
+        <a href="{% url 'buy' %}" style="text-decoration: none;">
+            <button>${{ total }} CONFIRM <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

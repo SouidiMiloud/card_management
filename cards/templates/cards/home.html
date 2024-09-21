@@ -1,0 +1,40 @@
+
+{% extends 'cards/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="home-page">
+    {% if user.is_authenticated %}
+    <div class="welcome-div">
+        <img src="{% static 'images/user_logo.PNG' %}"/>
+        <p>Welcome, <span>{{ username }}</span></p>
+    </div>
+    {% endif %}
+
+    <h3 style="font-weight: 600; margin: 3rem 0 1rem 0; text-align: center;">WELCOME TO YOUR PLATFORM</h3>
+    <h4 style="font-weight: 600; text-align: center;">DISCOVER AND BUY DIFFERENT CARDS AND ACCOUNTS</h4>
+    <div class="home-cards">
+        <div>
+            <div class="home-card">
+                <a href="{% url 'hq_detail_cards' %}">HQ CARDS</a>
+            </div>
+            <div class="home-card">
+                <a href="{% url 'vhq_detail_cards' %}">V-HQ CARDS</a>
+            </div> 
+        </div>
+        <div>
+            <div class="home-card">
+                <a href="{% url 'dump_detail_cards' %}">DUMPS</a>
+            </div>
+            <div class="home-card">
+                <a href="{% url 'wholesale_detail_cards' %}">WHOLESALE CARDS</a>
+            </div>
+        </div>
+        <div class="home-card">
+            <a href="{% url 'self_account_detail_cards' %}">SELF ACCOUNT REGISTERED</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

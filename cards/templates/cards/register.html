@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticate</title>
+    <style>
+        .authenticate_container {
+            margin-top: 7rem;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+        }
+        .authenticate_container button {
+            border-radius: 8px;
+            background-color: #117;
+            border: solid 1px white;
+            cursor: pointer;
+            padding: 0.7rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+        
+        .register_container form{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        
+        .register_container h3{
+            margin-top: 15%;
+        }
+        .register_container {
+            width: 95%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 2px 2px 15px rgba(30, 30, 30, 70);
+        }
+
+        .my_input{
+            width: 90%;
+            height: 10%;
+            margin-bottom: 1rem;
+        }
+        .my_input input{
+            padding: 5px;
+            font-size: 16px;
+            width: 100%;
+            height: 3rem;
+            background-color: #dfdfdf;
+            border: none;
+            border-radius: 5px;
+        }
+        .p-reg{
+            margin-top: 1rem;
+            display: none;
+        }
+        .btn-link{
+            background-color: transparent;
+            color: orange;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="authenticate_container">
+        
+        <div class="register_container" id="register_container">
+            <form id="register_form">
+                {% csrf_token %}
+                <h3>Create Account</h3>
+                <div class="my_input">
+                    <input id="register_username" name="username" placeholder="Username" required>
+                </div>
+                <div class="my_input">
+                    <input type="email" id="register_email" name="email" placeholder="Email" required>
+                </div>
+                <div class="my_input">
+                    <input type="password" id="register_password" name="password" placeholder="Password" required>
+                </div>
+                <p>Already Have an Account? <span><a class="btn-link" href="{% url 'login' %}">Login</a></span></p>
+                <button type="button" onclick="register()">SIGN UP</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const register_container = document.getElementById('register_container');
+        const register_form = document.getElementById('register_form');
+    
+        function register() {
+            const username = document.getElementById('register_username').value;
+            const email = document.getElementById('register_email').value;
+            const password = document.getElementById('register_password').value;
+
+            fetch(`{% url 'register' %}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ username: username, email: email, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `${location.origin}/authenticate`;
+                } else {
+                    alert('Registration failed: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="ticket-details">
+    <div class="messages">
+        <div class="msg-header">
+            <div class="subject">
+                <p style="font-size: 20px;">Subject:</p>
+                <h4>{{ ticket.subject }}</h4>
+            </div>
+            <div class="status">
+                <p style="font-size: 20px;">Status:</p>
+                <div>{{ ticket.status }}</div>
+            </div>
+        </div>
+        <div class="msg-body">
+            {% for msg in ticket_messages %}
+                <div class="msg-item">
+                    <div class="msg-details">
+                        <p>{{ msg.sent_at }}</p>
+                        <h5>
+                            {% if msg.sender == user %}
+                                You
+                            {% else %}
+                                {{ msg.sender.username }}
+                            {% endif %}
+                        </h5>
+                    </div>
+                    <div class="msg-content">
+                        {{ msg.message }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="reply">
+        {% if ticket.status == 'closed' %}
+            <div class="ticket_closed">
+                Ticket is Closed, Create a New Ticket if you have any additional queries
+            </div>
+        {% else %}
+        <form method="post" action="{% url 'reply' ticket.id %}">
+            {% csrf_token %}
+            <textarea name="message_content" placeholder="Enter your Message Here"></textarea>
+            <button>REPLY</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

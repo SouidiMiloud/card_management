@@ -1,0 +1,336 @@
+{% extends 'cards/base_generic.html' %}
+
+{% block content %}
+
+<div class="cards-div">
+    <h2>Search</h2>
+
+    <div class="search-div">
+        <div class="search-elements">
+            <div class="elements">
+                <label for="base">Base</label>
+                <select id="base" name="base" class="custom-input">
+                    <option value="All">All</option>
+                    {% for base in bases %}
+                        <option value="{{ base }}">{{ base }}</option>
+                    {% endfor %}
+                </select>
+                <br/>
+
+                <label for="zip">Zips</label>
+                <select id="zip" name="zip" class="custom-input">
+                    <option value="All">All</option>
+                    {% for zip in zips %}
+                        <option value="{{ zip }}">{{ zip }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="bank">Bank</label>
+                <select id="bank" name="bank" class="custom-input">
+                    <option value="All">All</option>
+                    {% for bank in banks %}
+                        <option value="{{ bank }}">{{ bank }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="bin">Bins</label>
+                <input class="custom-input" style="border: 1px black solid;" id="bin" name="bin" placeholder="Type Bin and press enter">
+            </div>
+
+            <div class="elements">
+                <label for="country">Country</label>
+                <select id="country" name="country" class="custom-input">
+                    <option value="All">All</option>
+                    {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="state">State</label>
+                <select id="state" name="state" class="custom-input">
+                    <option value="All">All</option>
+                    {% for state in states %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="city">City</label>
+                <select id="city" name="city" class="custom-input">
+                    <option value="All">All</option>
+                    {% for city in cities %}
+                        <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="checkboxes">
+                    <input type="checkbox" name="zip_checkbox" id="zip_checkbox">
+                    <label for="zip_checkbox">Zip</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="phone" id="phone">
+                    <label for="phone">Phone</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="email" id="email">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+
+            <div class="elements">
+                <label for="status">Brand</label>
+                <select id="status" name="status" class="custom-input">
+                    <option value="All">All</option>
+                    {% for status in statuses %}
+                        <option value="{{ status }}">{{ status }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="credit_debit">Credit/Debit</label>
+                <select id="credit_debit" name="credit_debit" class="custom-input">
+                    <option value="All">All</option>
+                    {% for credit_debit in credit_debits %}
+                        <option value="{{ credit_debit }}">{{ credit_debit }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <label for="level">Level</label>
+                <select id="level" name="level" class="custom-input">
+                    <option value="All">All</option>
+                    {% for level in levels %}
+                        <option value="{{ level }}">{{ level }}</option>
+                    {% endfor %}
+                </select>
+
+                <br/>
+
+                <div class="checkboxes">
+                    <input type="checkbox" name="refundable" id="refundable">
+                    <label for="refundable">Refundable</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="address" id="address">
+                    <label for="address">Address</label>
+                </div>
+            </div>
+
+            <div class="elements">
+                <label>Price Range</label>
+                <input type="range" id="min-price" min="0" max="1000" step="10" value="0" class="custom-input" oninput="updatePriceRange()">
+                <input type="range" id="max-price" min="0" max="1000" step="10" value="1000" class="custom-input" oninput="updatePriceRange()">
+                <label id="price-label">$0 - $1000</label>
+                
+                <br/>
+
+                <div class="checkboxes">
+                    <input type="checkbox" name="dob" id="dob">
+                    <label for="dob">DOB</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="ssn" id="ssn">
+                    <label for="ssn">SSN</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="ip" id="ip">
+                    <label for="ip">IP ADDRESS</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" name="ua" id="ua">
+                    <label for="ua">UA</label>
+                </div>
+            </div>
+        </div>
+
+        <button class="search-button" onclick="submitSearch()">SEARCH</button>
+    </div>
+
+    <div class="cards-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Base</th>
+                    <th>Bin</th>
+                    <th>Level</th>
+                    <th>Credit/Debit</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Address</th>
+                    <th>Email/Phone/DOB/SSN</th>
+                    <th>IP</th>
+                    <th>UA</th>
+                    <th>Bank Name</th>
+                    <th>Country</th>
+                    <th>Refundable</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in cards %}
+                <tr>
+                    <td>{{ card.base }}</td>
+                    <td style="display: flex; flex-direction: column;">
+                        {{ card.card_bin }}
+                        <p style="color: #55f; font-weight: bold; font-size: 18px;">{{ card.status }}</p>
+                    </td>
+                    <td>{{ card.level }}</td>
+                    <td>{{ card.credit_debit }}</td>
+                    <td>{{ card.city }}</td>
+                    <td>{{ card.state }}</td>
+                    <td>{{ card.card_zip }}</td>
+                    <td>
+                        {% if card.address %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td style="display: flex; flex-direction: column;">
+                        <div>Email: 
+                            {% if card.email %}
+                                <i class="fas fa-check-circle ok-icon"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle no-icon"></i>
+                            {% endif %}
+                        </div>
+                        <div>Phone: 
+                            {% if card.phone %}
+                                <i class="fas fa-check-circle ok-icon"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle no-icon"></i>
+                            {% endif %}
+                        </div>
+                        <div>DOB: 
+                            {% if card.dob %}
+                                <i class="fas fa-check-circle ok-icon"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle no-icon"></i>
+                            {% endif %}
+                        </div>
+                        <div>SSN: 
+                            {% if card.ssn %}
+                                <i class="fas fa-check-circle ok-icon"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle no-icon"></i>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {% if card.ip %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if card.ua %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ card.bank_name }}</td>
+                    <td>
+                        {{ card.country }} 
+                        <i class="fi fi-{{ card.country|lower }}"></i>
+                    </td>
+                    <td>
+                        {% if card.refundable %}
+                            <i class="fas fa-check-circle ok-icon"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle no-icon"></i>
+                        {% endif %}
+                    </td>
+                    <td class="text-success">${{ card.price }}</td>
+                    <td><a href="{% url 'add_hq_shop' card.id %}" class="btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i> CART
+                    </a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No cards available at the moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function updatePriceRange() {
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        const priceLabel = document.getElementById('price-label');
+
+        if (parseInt(minPrice) > parseInt(maxPrice)) {
+            document.getElementById('min-price').value = maxPrice;
+            document.getElementById('max-price').value = minPrice;
+        }
+
+        priceLabel.textContent = `$${minPrice} - $${maxPrice}`;
+    }
+
+    function submitSearch() {
+        const country = document.getElementById('country').value;
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        const dobChecked = document.getElementById('dob').checked;
+        const emailChecked = document.getElementById('email').checked;
+        const zipChecked = document.getElementById('zip_checkbox').checked;
+        const phoneChecked = document.getElementById('phone').checked;
+        const refundableChecked = document.getElementById('refundable').checked;
+        const ssnChecked = document.getElementById('ssn').checked;
+        const ipChecked = document.getElementById('ip').checked;
+        const base = document.getElementById('base').value;
+        const card_zip = document.getElementById('zip').value;
+        const state = document.getElementById('state').value;
+        const city = document.getElementById('city').value;
+        const bank = document.getElementById('bank').value;
+        const card_bin = document.getElementById('bin').value;        
+        const status = document.getElementById('status').value;
+        const credit_debit = document.getElementById('credit_debit').value;
+        const level = document.getElementById('level').value;
+        const address = document.getElementById('address').checked;
+        const ua = document.getElementById('ua').checked;
+
+        const query = new URLSearchParams({
+            country: country,
+            min_price: minPrice,
+            max_price: maxPrice,
+            dob: dobChecked,
+            email: emailChecked,
+            zip_checkbox: zipChecked,
+            phone: phoneChecked,
+            refundable: refundableChecked,
+            ssn: ssnChecked,
+            ip: ipChecked,
+            base: base,
+            bin: card_bin,
+            state: state, 
+            city: city,
+            bank: bank,
+            zip: card_zip,
+            status: status,
+            credit_debit: credit_debit,
+            level: level,
+            address: address,
+            ua: ua
+        }).toString();
+
+        window.location.search = query;
+    }
+</script>
+
+{% endblock %}
